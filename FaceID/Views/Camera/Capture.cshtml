@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>WebCamJs Test Page</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h2,h3 {
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        form>input{
+            margin-right: 15px;
+        }
+        #buttonhide {
+            background: transparent;
+            border: none !important;
+            font-size: 0;
+        }
+    </style>
+</head>
+<body class="container">
+<br/>
+<div class="col-md-2"></div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Camera
+        </div>
+        <div class="panel-body">
+            <div id="my_camera"></div>
+            <form>
+                <input type="button" class="btn btn-success" value="Стять" onclick="take_snapshot()"/>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Test Photo
+        </div>
+        <div class="panel-body">
+            <div id="results">Tset Test Test ......</div>
+        </div>
+        <br/>
+        <br/>
+    </div>
+</div>
+<script src="~/webcamjs/webcam.js"></script>
+<script language="javascript">
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_quality: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+</script>
+<script language="javascript">
+    function take_snapshot() {
+        Webcam.snap(function(data_uri) {
+            document.getElementById('results').innerHTML =
+                '<img src="' +
+                data_uri +
+                '"/>';
+            Webcam.upload(data_uri,
+                'Camera/CapturePhoto',
+                function(code, text) {
+                    alert('Test Test');
+                });
+        });
+    }
+</script>
+</body>
+</html>
